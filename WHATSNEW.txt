@@ -1,0 +1,90 @@
+February 19, 2003
+
+Version 2.0.1
+
+Executables with compile date after February 10, 2003 and expiration date 
+June 15, 2004 (printed at runtime) will handle all pedigree structures.
+
+Avalable Platforms:
+Linux intel
+Sun Sparc Solaris
+Mac OSX unix 
+Microsoft Windows Conole 
+Contact me if you need other platforms.
+
+The loop code has been turned on although not optimized at the moment. Algorithmic
+details aside, the performance of vitesse on loops may be better or worse than
+other implementations such as FASTLINK. Vitesse uses the loop breaker technique to
+handle loops as opposed to cut sets. The number of loop breakers in a pedigree is 
+printed to the screen along with the current count as a guide to the feasibility 
+of completing the calculation. 
+
+The child vector algorithm is currently not used with pedigrees with loops. 
+Vitesse2 chooses how to peel each nuclear family using either parental pairs or child vectors. Vitesse can be forced to use only parental pairs with the "-1 f"
+option or only child vectors (where possible) with the "-1 c" option. 
+
+NOTE: The command line option to print the lod scores for a LINKMAP run has been 
+      changed from -M to "-L m" 
+
+------------------------------------------------------------------------------
+Also available is PROFILER which can compute probability distributions of 
+multilocus genotypes for groups of individuals. PROFILER is built using 
+Vitesse and recursive genotype elimination algorithms and can be used with
+the same data and pedigree files used in Vitesse.
+
+Given a subset of individiuals in the pedigree, a set of markers called the 
+window, and a subset of markers of the window called the slice, PROFILER generates a
+rank ordered list of probabilities of each multilocus genotype vector defined
+by the slice conditional on the full pedigree and the window. The probabilities
+represent the contribution of each genotype vector to the overall likelihood. 
+Each genotype vector consists of two haplotypes. So in effect PROFILER is generating
+the full haplotype distribution of the set of inidividuals over the slice. 
+You can input as many markers as you like in the data and pedigree file but the 
+window size is limited by computation time. PROFILER automatically slides the 
+window across the framework map.
+
+
+More documentation will be forth coming but the basics are as follows:
+
+There are two options enabled in this release. 
+1. Generate the profile for each individual in the pedigree separately.
+2. Generate the profile for a group of user defined individuals. The
+   default group is the individual with 1 in the proband column in the 
+   pedigree file. To define your own group put a -1 in the proband column
+   for each individual in the group.
+
+Command line options:
+-D i  (for the individual)
+-D U  (for user-defined group)
+-s <val> (slice size)
+-w <val> (window size)
+
+Examples.
+profiler -d mydatafile -p mypedfile -D i -w 3 -s 2
+(profiles each individual using sliding window sizes of 3 and sliding
+slice sizes of 2 within the window)
+
+profiler -d mydatafile -p mypedfile -D U -w 2 -s 2
+(profiles the group using sliding window and slice sizes of 2 )
+
+Output is to the screen and also the file "profiler_results".
+Genotype vectors use ordered genotypes A | B representng a 
+paternal A allele and maternal B allele. Thus, multilocus 
+genotypes represent paternal and maternal haplotypes.
+
+Applications of PROFILER to perform haplotyping, pedigree error analysis,
+approximate the likelihood and IBD sharing statistics are under development.
+
+PROFILER does NOT work with looped pedigrees at the moment.
+
+
+The reference for PROFILER is
+ O'Connell JR (2000) PROFILER: a program to compute cumulative probability
+ profiles with applications to pedigree analysis. Amer J Hum Gen 67:A328
+______________________________________________________________________
+
+NOTE new contact e-mail:
+joconnel@medicine.umaryland.edu
+
+
+
